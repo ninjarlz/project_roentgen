@@ -1,6 +1,5 @@
 package com.ninjarlz.projectroentgen.view.gui;
 
-import com.ninjarlz.projectroentgen.model.logs.FileAndConsoleLoggerFactory;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -13,6 +12,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.logging.Logger;
 
+import com.ninjarlz.projectroentgen.utils.logs.FileAndConsoleLoggerFactory;
 
 public class MainView implements Initializable {
 

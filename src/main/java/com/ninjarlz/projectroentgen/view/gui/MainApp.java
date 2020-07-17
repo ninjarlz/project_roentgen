@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        URL location = getClass().getResource("/com/ninjarlz/projectroentgen/gui/MainView.fxml");
+        URL location = getClass().getResource("/com/ninjarlz/projectroentgen/view/gui/MainView.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(location);
         fxmlLoader.setResources(ResourceBundle.getBundle("i18n.SudokuBundle", new Locale("en", "EN")));
         Parent root = fxmlLoader.load();

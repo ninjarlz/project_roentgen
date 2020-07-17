@@ -1,6 +1,6 @@
 package com.ninjarlz.projectroentgen.model;
 
-import com.ninjarlz.projectroentgen.model.logs.FileAndConsoleLoggerFactory;
+import com.ninjarlz.projectroentgen.utils.logs.FileAndConsoleLoggerFactory;
 import com.ninjarlz.projectroentgen.model.point.CartesianPoint;
 import com.ninjarlz.projectroentgen.model.point.Point;
 import org.junit.jupiter.api.Test;
