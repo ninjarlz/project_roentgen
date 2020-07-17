@@ -1,5 +1,6 @@
 package com.ninjarlz.projectroentgen.view.gui;
 
+import com.ninjarlz.projectroentgen.model.logs.FileAndConsoleLoggerFactory;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Logger;
 
 
 public class MainView implements Initializable {
@@ -30,6 +32,7 @@ public class MainView implements Initializable {
     private ResourceBundle englishBundle = ResourceBundle.getBundle("i18n.SudokuBundle", englishLocale);
     private ResourceBundle polishBundle = ResourceBundle.getBundle("i18n.SudokuBundle");
     private ResourceBundle currentBundle = englishBundle;
+    private final Logger logger = FileAndConsoleLoggerFactory.getConfiguredLogger(MainView.class.getName());
 
     private enum Language {ENGLISH, POLISH}
 
