@@ -14,11 +14,11 @@ import java.util.Objects;
 public class CartesianPoint extends Point {
 
     /**
-     * stores a x coordinate of the point.
+     * Stores a x coordinate of the point.
      */
     private int x;
     /**
-     * stores a y coordinate of the point.
+     * Stores a y coordinate of the point.
      */
     private int y;
 

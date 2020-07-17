@@ -4,12 +4,17 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ninjarlz.projectroentgen.utils.logs.FileAndConsoleLoggerFactory;
@@ -24,9 +29,8 @@ public class MainView implements Initializable {
     public Menu languageMenu;
     public MenuItem englishMenuItem;
     public MenuItem polishMenuItem;
-    public Label authorsLabel;
     public AnchorPane anchorPane;
-    private FileChooser loadFileChooser = new FileChooser();
+    private FileChooser imageFileChooser = new FileChooser();
     private Stage stage;
     private Locale englishLocale = new Locale("en", "EN");
     private ResourceBundle englishBundle = ResourceBundle.getBundle("i18n.SudokuBundle", englishLocale);
@@ -38,7 +42,20 @@ public class MainView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JPG & PNG files (*.jpg, *.png)",
+                Arrays.asList("*.jpg", "*.png"));
+        imageFileChooser.getExtensionFilters().add(extFilter);
+    }
 
+    public void loadImageAction(ActionEvent actionEvent) {
+        File imageFile = imageFileChooser.showOpenDialog(stage);
+        if (imageFile != null) {
+            Image image = new Image(imageFile.toURI().toString());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitHeight(570);
+            imageView.setFitWidth(600);
+            mainPane.setCenter(imageView);
+        }
     }
 
     public void setStage(Stage stage) {

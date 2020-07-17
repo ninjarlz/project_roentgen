@@ -18,7 +18,7 @@
         <AnchorPane fx:id="anchorPane" xmlns:fx="http://javafx.com/fxml/1" BorderPane.alignment="CENTER" styleClass="menu-bar">
             <MenuBar AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
                 <Menu fx:id="fileMenu" mnemonicParsing="false" text="%file">
-                    <MenuItem fx:id="loadMenuItem" mnemonicParsing="false" text="%load"/>
+                    <MenuItem fx:id="loadMenuItem" mnemonicParsing="false" onAction="#loadImageAction" text="%load"/>
                     <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeAction" text="%close"/>
                 </Menu>
                 <Menu fx:id="languageMenu" mnemonicParsing="false" text="%language">
@@ -28,7 +28,7 @@
                 </Menu>
             </MenuBar>
             <Label fx:id="authorsLabel" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
-                   style="-fx-font-weight: bold; -fx-text-fill: black; " />
+                   style="-fx-font-weight: bold; -fx-text-fill: black; " text="Michał Kuśmidrowicz" />
         </AnchorPane>
     </top>
 </BorderPane>
