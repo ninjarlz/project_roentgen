@@ -13,53 +13,91 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass=".text-field {    -fx-background-color: rgba(53,89,119,0.4);}" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ninjarlz.projectroentgen.view.gui.MainView">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="800.0"
+            styleClass=".text-field {    -fx-background-color: rgba(53,89,119,0.4);}"
+            xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ninjarlz.projectroentgen.view.gui.MainView">
 
     <top>
-        <AnchorPane fx:id="anchorPane" maxHeight="32.0" maxWidth="814.0" minHeight="32.0" minWidth="800.0" prefHeight="32.0" prefWidth="814.0" styleClass="menu-bar" BorderPane.alignment="CENTER" xmlns:fx="http://javafx.com/fxml/1">
-            <MenuBar maxWidth="820.0" minWidth="800.0" prefHeight="32.0" prefWidth="820.0" AnchorPane.leftAnchor="-10.0" AnchorPane.topAnchor="0">
+        <AnchorPane fx:id="anchorPane" maxHeight="32.0" maxWidth="814.0" minHeight="32.0" minWidth="800.0"
+                    prefHeight="32.0" prefWidth="814.0" styleClass="menu-bar" BorderPane.alignment="CENTER"
+                    xmlns:fx="http://javafx.com/fxml/1">
+            <MenuBar maxWidth="820.0" minWidth="800.0" prefHeight="32.0" prefWidth="820.0" AnchorPane.leftAnchor="-10.0"
+                     AnchorPane.topAnchor="0">
                 <Menu fx:id="fileMenu" mnemonicParsing="false" text="%file">
-                    <MenuItem fx:id="loadMenuItem" mnemonicParsing="false" onAction="#loadImageAction" text="%load" />
-                    <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeAction" text="%close" />
+                    <MenuItem fx:id="loadMenuItem" mnemonicParsing="false" onAction="#loadImageAction" text="%load"/>
+                    <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeAction" text="%close"/>
                 </Menu>
                 <Menu fx:id="languageMenu" mnemonicParsing="false" text="%language">
-                    <MenuItem fx:id="englishMenuItem" mnemonicParsing="false" onAction="#changeToEnglishAction" text="%english" />
-                    <MenuItem fx:id="polishMenuItem" mnemonicParsing="false" onAction="#changeToPolishAction" text="%polish" />
+                    <MenuItem fx:id="englishMenuItem" mnemonicParsing="false" onAction="#changeToEnglishAction"
+                              text="%english"/>
+                    <MenuItem fx:id="polishMenuItem" mnemonicParsing="false" onAction="#changeToPolishAction"
+                              text="%polish"/>
                 </Menu>
             </MenuBar>
-            <Label fx:id="authorsLabel" style="-fx-font-weight: bold; -fx-text-fill: black; " text="Michał Kuśmidrowicz" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
+            <Label fx:id="authorsLabel" style="-fx-font-weight: bold; -fx-text-fill: black; " text="Michał Kuśmidrowicz"
+                   AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
         </AnchorPane>
     </top>
-   <center>
-      <GridPane alignment="CENTER" hgap="10.0" maxHeight="570.0" maxWidth="570.0" minHeight="570.0" minWidth="570.0" prefHeight="570.0" prefWidth="570.0" vgap="10.0" BorderPane.alignment="CENTER_RIGHT">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <ImageView fx:id="imageView1" fitHeight="280.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imageView2" fitHeight="280.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-            <ImageView fx:id="imageView3" fitHeight="280.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-            <ImageView fx:id="imageView4" fitHeight="280.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
-   </center>
-   <left>
-      <ScrollPane maxHeight="570.0" maxWidth="200.0" minHeight="570.0" minWidth="230.0" prefHeight="570.0" prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
-        <content>
-          <AnchorPane fx:id="anchorLeft" minWidth="230.0" prefWidth="230.0">
-               <children>
-                  <Label fx:id="loadPictureLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="49.0" layoutY="2.0" text="%load">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children></AnchorPane>
-        </content>
-      </ScrollPane>
-   </left>
+    <center>
+        <GridPane alignment="CENTER" hgap="10.0" maxHeight="570.0" maxWidth="570.0" minHeight="570.0" minWidth="570.0"
+                  prefHeight="570.0" prefWidth="570.0" vgap="10.0" BorderPane.alignment="CENTER_RIGHT">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <AnchorPane fx:id="anchorImageView1" maxHeight="280.0" maxWidth="280.0" minHeight="32.0"
+                            minWidth="800.0"
+                            prefHeight="280.0" prefWidth="280.0">
+                    <children>
+                        <ImageView fx:id="imageView1" fitHeight="280.0" fitWidth="280.0" pickOnBounds="true"/>
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="anchorImageView2" maxHeight="280.0" maxWidth="280.0" minHeight="32.0"
+                            minWidth="800.0"
+                            prefHeight="280.0" prefWidth="280.0" GridPane.columnIndex="1">
+                    <children>
+                        <ImageView fx:id="imageView2" fitHeight="280.0" fitWidth="280.0" pickOnBounds="true"/>
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="anchorImageView3" maxHeight="280.0" maxWidth="280.0" minHeight="32.0"
+                            minWidth="800.0"
+                            prefHeight="280.0" prefWidth="280.0" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView fx:id="imageView3" fitHeight="280.0" fitWidth="280.0" pickOnBounds="true"/>
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="anchorImageView4" maxHeight="280.0" maxWidth="280.0" minHeight="32.0"
+                            minWidth="800.0"
+                            prefHeight="280.0" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView fx:id="imageView4" fitHeight="280.0" fitWidth="280.0" pickOnBounds="true"/>
+                    </children>
+                </AnchorPane>
+            </children>
+        </GridPane>
+    </center>
+    <left>
+        <ScrollPane maxHeight="570.0" maxWidth="200.0" minHeight="570.0" minWidth="230.0" prefHeight="570.0"
+                    prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
+            <content>
+                <AnchorPane fx:id="anchorLeft" minWidth="230.0" prefWidth="230.0">
+                    <children>
+                        <Label fx:id="loadPictureLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="49.0"
+                               layoutY="2.0" text="%load">
+                            <font>
+                                <Font size="24.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+    </left>
 </BorderPane>

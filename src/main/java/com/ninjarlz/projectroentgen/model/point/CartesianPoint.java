@@ -2,6 +2,7 @@ package com.ninjarlz.projectroentgen.model.point;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Objects;
@@ -9,18 +10,18 @@ import java.util.Objects;
 /**
  * Class representing a point in Cartesian space.
  */
-@Data
 @AllArgsConstructor
+@Data
 public class CartesianPoint extends Point {
 
     /**
      * Stores a x coordinate of the point.
      */
-    private int x;
+    private double x;
     /**
      * Stores a y coordinate of the point.
      */
-    private int y;
+    private double y;
 
     /**
      * Gets the distance from the origin of space.
