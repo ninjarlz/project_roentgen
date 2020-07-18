@@ -15,11 +15,12 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         URL location = getClass().getResource("/com/ninjarlz/projectroentgen/view/gui/MainView.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(location);
-        fxmlLoader.setResources(ResourceBundle.getBundle("i18n.SudokuBundle", new Locale("en", "EN")));
+        fxmlLoader.setResources(ResourceBundle.getBundle("i18n.AppBundle", new Locale("en", "EN")));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
         stage.setTitle("App");
         stage.setScene(scene);
+        stage.setResizable(false);
         MainView controller = fxmlLoader.getController();
         controller.setStage(stage);
         stage.show();

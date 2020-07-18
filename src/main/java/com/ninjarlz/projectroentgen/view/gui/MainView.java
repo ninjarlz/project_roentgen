@@ -3,6 +3,7 @@ package com.ninjarlz.projectroentgen.view.gui;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,11 +31,18 @@ public class MainView implements Initializable {
     public MenuItem englishMenuItem;
     public MenuItem polishMenuItem;
     public AnchorPane anchorPane;
+    public ImageView imageView1;
+    public ImageView imageView2;
+    public ImageView imageView3;
+    public ImageView imageView4;
+    public Label loadPictureLabel;
+    public AnchorPane anchorLeft;
+    private ImageView[] imageViews = new ImageView[4];
     private FileChooser imageFileChooser = new FileChooser();
     private Stage stage;
     private Locale englishLocale = new Locale("en", "EN");
-    private ResourceBundle englishBundle = ResourceBundle.getBundle("i18n.SudokuBundle", englishLocale);
-    private ResourceBundle polishBundle = ResourceBundle.getBundle("i18n.SudokuBundle");
+    private ResourceBundle englishBundle = ResourceBundle.getBundle("i18n.AppBundle", englishLocale);
+    private ResourceBundle polishBundle = ResourceBundle.getBundle("i18n.AppBundle");
     private ResourceBundle currentBundle = englishBundle;
     private final Logger logger = FileAndConsoleLoggerFactory.getConfiguredLogger(MainView.class.getName());
 
@@ -45,16 +53,21 @@ public class MainView implements Initializable {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JPG & PNG files (*.jpg, *.png)",
                 Arrays.asList("*.jpg", "*.png"));
         imageFileChooser.getExtensionFilters().add(extFilter);
+        imageViews[0] = imageView1;
+        imageViews[1] = imageView2;
+        imageViews[2] = imageView3;
+        imageViews[3] = imageView4;
     }
+
 
     public void loadImageAction(ActionEvent actionEvent) {
         File imageFile = imageFileChooser.showOpenDialog(stage);
         if (imageFile != null) {
             Image image = new Image(imageFile.toURI().toString());
-            ImageView imageView = new ImageView(image);
-            imageView.setFitHeight(570);
-            imageView.setFitWidth(600);
-            mainPane.setCenter(imageView);
+            for (ImageView imageView : imageViews) {
+                imageView.setImage(image);
+            }
+            anchorLeft.getChildren().remove(loadPictureLabel);
         }
     }
 
@@ -67,7 +80,7 @@ public class MainView implements Initializable {
     }
 
 
-    public void changeLangauge(Language language) {
+    public void changeLanguage(Language language) {
         switch (language) {
             case ENGLISH:
                 currentBundle = englishBundle;
@@ -82,13 +95,16 @@ public class MainView implements Initializable {
         languageMenu.setText(currentBundle.getString("language"));
         englishMenuItem.setText(currentBundle.getString("english"));
         polishMenuItem.setText(currentBundle.getString("polish"));
+        if (loadPictureLabel != null) {
+            loadPictureLabel.setText(currentBundle.getString("load"));
+        }
     }
 
     public void changeToPolishAction(ActionEvent actionEvent) {
-        changeLangauge(Language.POLISH);
+        changeLanguage(Language.POLISH);
     }
 
     public void changeToEnglishAction(ActionEvent actionEvent) {
-        changeLangauge(Language.ENGLISH);
+        changeLanguage(Language.ENGLISH);
     }
 }
