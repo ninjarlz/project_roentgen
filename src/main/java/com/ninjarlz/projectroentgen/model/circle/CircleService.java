@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CircleList {
+public class CircleService {
 
     private List<CircleModel> circleList = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class CircleList {
 
     public CircleModel addCircle(double x, double y, double radius) {
         if (!checkIfCircleIsAlreadyDefined(x, y)) {
-            CircleModel circleModel = new CircleModel(new CartesianPoint(x, y), ColorModel.getRandomColor(), radius);
+            CircleModel circleModel = new CircleModel(x, y, radius);
             circleList.add(circleModel);
             return circleModel;
         }
@@ -45,8 +45,18 @@ public class CircleList {
 
     }
 
-    public void moveCircle(CircleModel circle, double x, double y) {
+    public boolean removeCircle(double x, double y) {
+        CircleModel circleModel = getCircleAt(x, y);
+        if (circleModel != null) {
+            circleList.remove(circleModel);
+            return  true;
+        }
+        return false;
+    }
 
+    public void moveCircle(CircleModel circle, double x, double y) {
+        circle.getCartesianPoint().setX(x);
+        circle.getCartesianPoint().setY(y);
     }
 
 }

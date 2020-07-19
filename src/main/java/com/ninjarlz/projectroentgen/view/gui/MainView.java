@@ -1,15 +1,20 @@
 package com.ninjarlz.projectroentgen.view.gui;
 
 import com.ninjarlz.projectroentgen.model.circle.CircleModel;
-import com.ninjarlz.projectroentgen.model.circle.CircleList;
+import com.ninjarlz.projectroentgen.model.circle.CircleService;
+import com.ninjarlz.projectroentgen.model.point.CartesianPoint;
 import com.ninjarlz.projectroentgen.utils.languages.LanguageManager;
 import com.ninjarlz.projectroentgen.utils.mappers.ColorMapper;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
@@ -41,21 +46,21 @@ public class MainView implements Initializable {
     public ImageView imageView2;
     public ImageView imageView3;
     public ImageView imageView4;
-    public Label loadPictureLabel;
     public AnchorPane anchorImageView1;
     public AnchorPane anchorImageView2;
     public AnchorPane anchorImageView3;
     public AnchorPane anchorImageView4;
-    private CircleList circleList = new CircleList();
+    private CircleService circleService = new CircleService();
     public AnchorPane anchorLeft;
     private ImageView[] imageViews = new ImageView[4];
     private AnchorPane[] anchorImageViews = new AnchorPane[4];
-    private boolean isImageLoaded = false;
     private FileChooser imageFileChooser = new FileChooser();
     private Stage stage;
+    private CartesianPoint delta = new CartesianPoint(0, 0);
     private final LanguageManager languageManager = new LanguageManager();
     private final Logger logger = FileAndConsoleLoggerFactory.getConfiguredLogger(MainView.class.getName());
-
+    private double widthBound;
+    private double heightBound;
 
 
     @Override
@@ -71,51 +76,116 @@ public class MainView implements Initializable {
         anchorImageViews[1] = anchorImageView2;
         anchorImageViews[2] = anchorImageView3;
         anchorImageViews[3] = anchorImageView4;
-        for (AnchorPane anchorImageView : anchorImageViews) {
-            anchorImageView.setOnMouseClicked(this::onAnchorImageClick);
+        widthBound = anchorImageView1.getMinWidth();
+        heightBound = anchorImageView1.getMinHeight();
+        Image image = new Image(getClass().getResource("/exemplaryImage/exemplaryImage.jpg").toString());
+        for (ImageView imageView : imageViews) {
+            imageView.setImage(image);
         }
+        for (AnchorPane anchorImageView : anchorImageViews) {
+            anchorImageView.setOnMousePressed(this::onAnchorImagePressed);
+        }
+
     }
 
 
-    private void onAnchorImageClick(MouseEvent event) {
-        if (isImageLoaded) {
-            switch (event.getButton()) {
-                case PRIMARY:
-                    CircleModel circleModel = circleList.getCircleAt(event.getX(), event.getY());
-                    if (circleModel == null) {
-                        addCircle(event.getX(), event.getY());
-                    } else {
-                        deleteCircle(circleModel);
-                    }
-                    break;
-                case SECONDARY:
-                    break;
+    private void onAnchorImagePressed(MouseEvent event) {
+        if (event.getButton() == MouseButton.PRIMARY) {
+            addCircle(event.getX(), event.getY());
+        }
+    }
+
+    private void onMouseClickedOnCircle(MouseEvent event) {
+        if (event.getButton() == MouseButton.SECONDARY) {
+            deleteCircle(event.getX(), event.getY());
+        }
+    }
+
+    private void onMousePressedOnCircle(MouseEvent event) {
+        if (event.getButton() == MouseButton.PRIMARY) {
+            Circle circle = (Circle) event.getSource();
+            delta.setX(circle.getCenterX() - event.getX());
+            delta.setY(circle.getCenterY() - event.getY());
+            mainPane.getScene().setCursor(Cursor.MOVE);
+        }
+    }
+
+    private void onMouseReleasedCircle(MouseEvent event) {
+        mainPane.getScene().setCursor(Cursor.HAND);
+    }
+
+    private void onMouseDraggedCircle(MouseEvent event) {
+        Circle circle = (Circle) event.getSource();
+        double newPosX;
+        double newPosY;
+        if (event.getX() + delta.getX() <= 0) {
+            newPosX = 0;
+        } else if (event.getX() + delta.getX() >= widthBound) {
+            newPosX = widthBound;
+        } else {
+            newPosX = event.getX() + delta.getX();
+        }
+        if (event.getY() + delta.getY() <= 0) {
+            newPosY = 0;
+        } else if (event.getY() + delta.getY() >= heightBound) {
+            newPosY = heightBound;
+        } else {
+            newPosY = event.getY() + delta.getY();
+        }
+        if (!circleService.checkIfCircleIsAlreadyDefined(newPosX, newPosY)) {
+            CircleModel circleModel = circleService.getCircleAt(circle.getCenterX(), circle.getCenterY());
+            int index = circleService.getCircleIndex(circleModel);
+            circleService.moveCircle(circleModel, newPosX, newPosY);
+            for (AnchorPane anchorImageView : anchorImageViews) {
+                Circle circleOnPanel = (Circle) anchorImageView.getChildren().get(index + 1);
+                circleOnPanel.setCenterX(newPosX);
+                circleOnPanel.setCenterY(newPosY);
             }
         }
     }
 
-    private void addCircle(double x, double y) {
-        CircleModel circleModel = circleList.addCircle(x, y, CIRCLE_RADIUS);
-        for (AnchorPane anchorImageView : anchorImageViews) {
-            Circle circle = new Circle(x, y, CIRCLE_RADIUS);
-            circle.setFill(ColorMapper.mapColorModelToColor(circleModel.getColor()));
-            anchorImageView.getChildren().add(circle);
+    private void onMouseEnteredCircle(MouseEvent event) {
+        if (!event.isPrimaryButtonDown()) {
+            mainPane.getScene().setCursor(Cursor.HAND);
         }
-        logger.log(Level.INFO, "Circle added at - x: " + circleModel.getCartesianPoint().getX() + " , y: "
-                + circleModel.getCartesianPoint().getY());
-
-
     }
 
-    private void deleteCircle(CircleModel circleModel) {
-        int index = circleList.getCircleIndex(circleModel);
-        circleList.removeCircle(circleModel);
-        for (AnchorPane anchorImageView : anchorImageViews) {
-            anchorImageView.getChildren().remove(index + 1, index + 2);
+    private void onMouseExitedCircle(MouseEvent event) {
+        if (!event.isPrimaryButtonDown()) {
+            mainPane.getScene().setCursor(Cursor.DEFAULT);
         }
-        logger.log(Level.INFO, "Circle deleted at - x: " + circleModel.getCartesianPoint().getX() + " , y: "
-                + circleModel.getCartesianPoint().getY());
+    }
 
+    private void addCircle(double x, double y) {
+        CircleModel circleModel = circleService.addCircle(x, y, CIRCLE_RADIUS);
+        if (circleModel != null) {
+            for (AnchorPane anchorImageView : anchorImageViews) {
+                Circle circle = new Circle(x, y, CIRCLE_RADIUS);
+                circle.setFill(ColorMapper.mapColorModelToColor(circleModel.getColor()));
+                circle.setOnMouseClicked(this::onMouseClickedOnCircle);
+                circle.setOnMousePressed(this::onMousePressedOnCircle);
+                circle.setOnMouseReleased(this::onMouseReleasedCircle);
+                circle.setOnMouseDragged(this::onMouseDraggedCircle);
+                circle.setOnMouseExited(this::onMouseExitedCircle);
+                circle.setOnMouseEntered(this::onMouseEnteredCircle);
+                anchorImageView.getChildren().add(circle);
+            }
+            logger.log(Level.INFO, "Circle added at - x: " + circleModel.getCartesianPoint().getX() + " , y: "
+                    + circleModel.getCartesianPoint().getY());
+        }
+    }
+
+    private void deleteCircle(double x, double y) {
+        CircleModel circleModel = circleService.getCircleAt(x, y);
+        if (circleModel != null) {
+            int index = circleService.getCircleIndex(circleModel);
+            circleService.removeCircle(circleModel);
+            for (AnchorPane anchorImageView : anchorImageViews) {
+                anchorImageView.getChildren().remove(index + 1, index + 2);
+            }
+            logger.log(Level.INFO, "Circle deleted at - x: " + circleModel.getCartesianPoint().getX() + " , y: "
+                    + circleModel.getCartesianPoint().getY());
+        }
     }
 
     public void loadImageAction(ActionEvent actionEvent) {
@@ -125,8 +195,6 @@ public class MainView implements Initializable {
             for (ImageView imageView : imageViews) {
                 imageView.setImage(image);
             }
-            anchorLeft.getChildren().remove(loadPictureLabel);
-            isImageLoaded = true;
         }
     }
 
@@ -147,9 +215,6 @@ public class MainView implements Initializable {
         languageMenu.setText(languageManager.getCurrentBundle().getString("language"));
         englishMenuItem.setText(languageManager.getCurrentBundle().getString("english"));
         polishMenuItem.setText(languageManager.getCurrentBundle().getString("polish"));
-        if (!isImageLoaded) {
-            loadPictureLabel.setText(languageManager.getCurrentBundle().getString("load"));
-        }
     }
 
     public void changeToPolishAction(ActionEvent actionEvent) {
