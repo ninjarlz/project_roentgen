@@ -336,7 +336,7 @@ public class MainView implements Initializable {
         }
     }
 
-    public void changeLanguage(LanguageManager.Language language) {
+    private void changeLanguage(LanguageManager.Language language) {
         languageManager.changeLanguage(language);
         fileMenu.setText(languageManager.getCurrentBundle().getString("file"));
         loadMenuItem.setText(languageManager.getCurrentBundle().getString("load"));
