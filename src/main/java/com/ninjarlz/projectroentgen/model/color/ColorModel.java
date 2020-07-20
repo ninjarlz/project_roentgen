@@ -15,8 +15,7 @@ public class ColorModel {
     private double b;
 
     public static ColorModel getRandomColor() {
-        Random random = new Random();
-        return new ColorModel(random.nextDouble(), random.nextDouble(), random.nextDouble());
+        return new ColorModel(Math.random(), Math.random(), Math.random());
     }
 
     @Override

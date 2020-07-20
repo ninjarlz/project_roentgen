@@ -1,8 +1,5 @@
 package com.ninjarlz.projectroentgen.model.circle;
 
-import com.ninjarlz.projectroentgen.model.color.ColorModel;
-import com.ninjarlz.projectroentgen.model.point.CartesianPoint;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +7,17 @@ import java.util.List;
 public class CircleService {
 
     private List<CircleModel> circleList = new ArrayList<>();
+
+    private CircleService() {}
+
+    private static CircleService instance;
+
+    public static CircleService getInstance() {
+        if (instance == null) {
+            instance = new CircleService();
+        }
+        return instance;
+    }
 
     public CircleModel getCircleAt(double x, double y) {
         for (CircleModel circle : circleList) {
@@ -57,6 +65,11 @@ public class CircleService {
     public void moveCircle(CircleModel circle, double x, double y) {
         circle.getCartesianPoint().setX(x);
         circle.getCartesianPoint().setY(y);
+    }
+
+
+    public void clear() {
+        circleList.clear();
     }
 
 }

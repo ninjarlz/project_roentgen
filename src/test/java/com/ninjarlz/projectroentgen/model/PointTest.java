@@ -31,7 +31,8 @@ public class PointTest {
 
 
     /**
-     * Tests whether the Comparable interface is properly implemented in the Point class.
+     * Tests whether the Comparable interface is properly implemented in the Point class. Points should be ordered based
+     * on their distances from the origin of space.
      */
     @Test
     public void pointsCompareTest() {

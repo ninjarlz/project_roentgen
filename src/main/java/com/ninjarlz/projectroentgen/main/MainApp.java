@@ -1,5 +1,6 @@
-package com.ninjarlz.projectroentgen.view.gui;
+package com.ninjarlz.projectroentgen.main;
 
+import com.ninjarlz.projectroentgen.controller.MainView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +14,7 @@ import java.util.ResourceBundle;
 public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        URL location = getClass().getResource("/com/ninjarlz/projectroentgen/view/gui/MainView.fxml");
+        URL location = getClass().getResource("/com/ninjarlz/projectroentgen/view/MainView.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(location);
         fxmlLoader.setResources(ResourceBundle.getBundle("i18n.AppBundle", new Locale("en", "EN")));
         Parent root = fxmlLoader.load();

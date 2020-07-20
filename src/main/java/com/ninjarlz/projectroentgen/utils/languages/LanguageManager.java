@@ -13,6 +13,17 @@ public class LanguageManager {
     @Getter
     private ResourceBundle currentBundle = englishBundle;
 
+    private LanguageManager() {}
+
+    private static LanguageManager instance;
+
+    public static LanguageManager getInstance() {
+        if (instance == null) {
+            instance = new LanguageManager();
+        }
+        return instance;
+    }
+
     public enum Language {ENGLISH, POLISH}
 
     public void changeLanguage(Language language) {

@@ -8,7 +8,6 @@ import lombok.Data;
 import java.util.Objects;
 
 @Data
-@AllArgsConstructor
 public class CircleModel implements Comparable<CircleModel> {
 
     private CartesianPoint cartesianPoint;
