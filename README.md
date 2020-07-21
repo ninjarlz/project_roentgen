@@ -30,7 +30,9 @@ A simple application made in JavaFX as a recruitment task.
 * The cursor can take the form of crossed arrows when the circle is being dragged and a hand with the index finger outstretched when it points at the specific circle.
 * There is a scrollbar on the left panel containing circles' data panels.
 * Circles have randomly generated colors. This also applies to the circles' data panels (**Point** label and the panels' outlines).
-* The user is not able to place one circle on top of another. This is the case for both dragging the circle and modifying its coordinates via the panel. 
+* The user is not able to place one circle on top of another. This is the case for both dragging the circle and modifying its coordinates via the panel.
+* All backend classes (placed in 'model' and 'utils' packages) are described by the set of appropriate Javadocs.
+* All classes in the 'model' package possess tests written with JUnit.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
@@ -47,13 +49,13 @@ $ git clone https://github.com/ninjarlz/project_roentgen
 One can build the project via Maven commands or in e.g. IDE like IntelliJ (in such case one has to install additional IntelliJ plugin for Lombok library).
 
 ## Built with
-* [JavaFX](https://www.oracle.com/java/technologies/javase/javafx-overview.html) - a software platform for creating and delivering desktop applications
+* [JavaFX](https://www.oracle.com/java/technologies/javase/javafx-overview.html) - a software platform for creating and delivering desktop applications.
 
 ## Developers
 * **Michał Kuśmidrowicz** - [ninjarlz](https://github.com/ninjarlz)
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 
 
