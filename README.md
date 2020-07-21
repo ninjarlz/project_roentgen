@@ -15,7 +15,7 @@ A simple application made in JavaFX as a recruitment task.
 <img width="500" src="screenshots/PL.PNG">
 </p><br>
 
-## Additional tasks
+## Additional functionalities
 
 ### Mentioned in the instruction
 
@@ -26,13 +26,14 @@ A simple application made in JavaFX as a recruitment task.
 
 * The user is able to change the picture presented in the grid panel via the upper panel: **File**>**Load picture**. By default, the exemplary image is loaded.
 * One can clear all points via: **File**>**Reset points**.
-* There are two language versions of the app - English and Polish one. Switching between them: **Language** at the upper panel.
+* There are two language versions of the app - English and Polish one. Switching between them: **Language** in the upper panel.
 * The cursor can take the form of crossed arrows when the circle is being dragged and a hand with the index finger outstretched when it points at the specific circle.
 * There is a scrollbar on the left panel containing circles' data panels.
 * Circles have randomly generated colors. This also applies to the circles' data panels (**Point** label and the panels' outlines).
 * The user is not able to place one circle on top of another. This is the case for both dragging the circle and modifying its coordinates via the panel.
 * All backend classes (placed in 'model' and 'utils' packages) are described by the set of appropriate Javadocs.
 * All classes in the 'model' package possess tests written with JUnit.
+* In case of validation errors, the appropriate message is displayed in the upper panel.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
