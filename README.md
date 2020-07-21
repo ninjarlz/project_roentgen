@@ -34,6 +34,7 @@ A simple application made in JavaFX as a recruitment task.
 * All backend classes (placed in 'model' and 'utils' packages) are described by the set of appropriate Javadocs.
 * All classes in the 'model' package possess tests written with JUnit.
 * In case of validation errors, the appropriate message is displayed in the upper panel.
+* The app has configured logger which sends the output to both console and file (log_output.txt).
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
