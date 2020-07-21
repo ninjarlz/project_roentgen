@@ -5,8 +5,8 @@ A simple application made in JavaFX as a recruitment task.
 ## Screenshots
 
 <p align="center">
-<img width="250" src="screenshots/EN.png">
-<img width="250" src="screenshots/PL.ENG">
+<img width="250" src="screenshots/EN.PNG">
+<img width="250" src="screenshots/PL.PNG">
 </p><br>
 
 ## Additional tasks
