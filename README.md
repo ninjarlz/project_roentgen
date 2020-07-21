@@ -35,6 +35,7 @@ A simple application made in JavaFX as a recruitment task.
 * All classes in the 'model' package possess tests written with JUnit.
 * In case of validation errors, the appropriate message is displayed in the upper panel.
 * The app has configured logger which sends the output to both console and file (log_output.txt).
+* There is an additional 'Remove' button in each circle data panel, which provides an alternative way to delete the assigned circle.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
