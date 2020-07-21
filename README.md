@@ -27,9 +27,9 @@ A simple application made in JavaFX as a recruitment task.
 * The user is able to change the picture presented in the grid panel via the upper panel: **File**>**Load picture**. By default, the exemplary image is loaded.
 * One can clear all points via: **File**>**Reset points**.
 * There are two language versions of the app - English and Polish one. Switching between them: **Language** at the upper panel.
-* Cursor can takes the form of crossed arrows when the circle is being dragged and a hand with the index finger outstreched when it points at the specific circle.
+* The cursor can take the form of crossed arrows when the circle is being dragged and a hand with the index finger outstretched when it points at the specific circle.
 * There is a scrollbar on the left panel containing circles' data panels.
-* Circles have randomly generated colors.This also applies to the circles' data panels (**Point** label and the panels' outlines).
+* Circles have randomly generated colors. This also applies to the circles' data panels (**Point** label and the panels' outlines).
 * The user is not able to place one circle on top of another. This is the case for both dragging the circle and modifying its coordinates via the panel. 
 
 ## Getting Started
