@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 public class PointPanel {
 
+
     private static final Logger logger = FileAndConsoleLoggerFactory.getConfiguredLogger(PointPanel.class.getName());
 
     public static AnchorPane getPointPanel(Color color, EventHandler<ActionEvent> onRemoveButton,

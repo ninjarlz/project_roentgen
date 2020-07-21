@@ -56,12 +56,12 @@ public class MainView implements Initializable {
     public VBox scrollBox;
     public Label validationMsgLabel;
     private CircleService circleService = CircleService.getInstance();
-    private ImageView[] imageViews = new ImageView[4];
-    private AnchorPane[] anchorImageViews = new AnchorPane[4];
+    private ImageView[] imageViews;
+    private AnchorPane[] anchorImageViews;
     private FileChooser imageFileChooser = new FileChooser();
     @Setter
     private Stage stage;
-    private CartesianPoint delta = new CartesianPoint(0, 0);
+    private CartesianPoint dragDelta = new CartesianPoint(0, 0);
     private final LanguageManager languageManager = LanguageManager.getInstance();
     private final Logger logger = FileAndConsoleLoggerFactory.getConfiguredLogger(MainView.class.getName());
     private double widthBound;
@@ -73,14 +73,8 @@ public class MainView implements Initializable {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JPG & PNG files (*.jpg, *.png)",
                 Arrays.asList("*.jpg", "*.png"));
         imageFileChooser.getExtensionFilters().add(extFilter);
-        imageViews[0] = imageView1;
-        imageViews[1] = imageView2;
-        imageViews[2] = imageView3;
-        imageViews[3] = imageView4;
-        anchorImageViews[0] = anchorImageView1;
-        anchorImageViews[1] = anchorImageView2;
-        anchorImageViews[2] = anchorImageView3;
-        anchorImageViews[3] = anchorImageView4;
+        imageViews = new ImageView[]{imageView1, imageView2, imageView3, imageView4};
+        anchorImageViews = new AnchorPane[]{anchorImageView1, anchorImageView2, anchorImageView3, anchorImageView4};
         mainPane.setOnMouseReleased(this::onMouseReleased);
         widthBound = anchorImageView1.getMinWidth();
         heightBound = anchorImageView1.getMinHeight();
@@ -109,8 +103,8 @@ public class MainView implements Initializable {
     private void onMousePressedOnCircle(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
             Circle circle = (Circle) event.getSource();
-            delta.setX(circle.getCenterX() - event.getX());
-            delta.setY(circle.getCenterY() - event.getY());
+            dragDelta.setX(circle.getCenterX() - event.getX());
+            dragDelta.setY(circle.getCenterY() - event.getY());
             mainPane.getScene().setCursor(Cursor.MOVE);
         } else if (event.getButton() == MouseButton.SECONDARY) {
             deleteCircle(event.getX(), event.getY());
@@ -129,19 +123,19 @@ public class MainView implements Initializable {
             Circle circle = (Circle) event.getSource();
             double newPosX;
             double newPosY;
-            if (event.getX() + delta.getX() <= 0) {
+            if (event.getX() + dragDelta.getX() <= 0) {
                 newPosX = 0;
-            } else if (event.getX() + delta.getX() >= widthBound) {
+            } else if (event.getX() + dragDelta.getX() >= widthBound) {
                 newPosX = widthBound;
             } else {
-                newPosX = event.getX() + delta.getX();
+                newPosX = event.getX() + dragDelta.getX();
             }
-            if (event.getY() + delta.getY() <= 0) {
+            if (event.getY() + dragDelta.getY() <= 0) {
                 newPosY = 0;
-            } else if (event.getY() + delta.getY() >= heightBound) {
+            } else if (event.getY() + dragDelta.getY() >= heightBound) {
                 newPosY = heightBound;
             } else {
-                newPosY = event.getY() + delta.getY();
+                newPosY = event.getY() + dragDelta.getY();
             }
             if (!circleService.checkIfCircleIsAlreadyDefined(newPosX, newPosY)) {
                 CircleModel circleModel = circleService.getCircleAt(circle.getCenterX(), circle.getCenterY());
