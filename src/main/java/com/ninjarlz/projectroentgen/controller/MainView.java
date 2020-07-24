@@ -167,14 +167,10 @@ public class MainView implements Initializable {
 
     private void onCircleRemoved(CircleModel circleModel) {
         int index = circleService.getCircleIndex(circleModel);
-        System.out.println("INDEX:" + index);
         for (AnchorPane anchorImageView : anchorImageViews) {
-
             anchorImageView.getChildren().remove(index + 1, index + 2);
-
         }
         scrollBox.getChildren().remove(index, index + 1);
-        System.out.println("a");
         logger.log(Level.INFO, "Circle deleted at - x: " + circleModel.getCartesianPoint().getX() + " , y: "
                 + circleModel.getCartesianPoint().getY());
     }

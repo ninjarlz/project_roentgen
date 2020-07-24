@@ -29,11 +29,17 @@ public class CircleModel implements Comparable<CircleModel> {
      * Stores the radius of circle.
      */
     private double radius;
-
+    /**
+     * Stores callbacks executed when the circle is created.
+     */
     private List<Consumer<CircleModel>> onCircleCreated;
-
+    /**
+     * Stores callbacks executed when the circle is removed.
+     */
     private List<Consumer<CircleModel>> onCircleRemoved;
-
+    /**
+     * Stores callbacks executed when the circle is moved.
+     */
     private List<Consumer<CircleModel>> onCircleMoved;
 
     /**
@@ -42,6 +48,9 @@ public class CircleModel implements Comparable<CircleModel> {
      * @param x      x coordinate of the circle.
      * @param y      y coordinate of the circle.
      * @param radius radius of the circle.
+     * @param onCircleCreated callbacks executed when the circle is created.
+     * @param onCircleRemoved callbacks executed when the circle is removed.
+     * @param onCircleMoved callbacks executed when the circle is moved.
      */
     public CircleModel(double x, double y, double radius, List<Consumer<CircleModel>> onCircleCreated,
                        List<Consumer<CircleModel>> onCircleRemoved,

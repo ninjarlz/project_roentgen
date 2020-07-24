@@ -1,10 +1,7 @@
 package com.ninjarlz.projectroentgen.model.circle;
 
-import com.ninjarlz.projectroentgen.model.point.CartesianPoint;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -75,6 +72,9 @@ public class CircleService {
      * @param x x coordinate of the circle.
      * @param y y coordinate of the circle.
      * @param radius radius of the circle.
+     * @param onCircleCreated callbacks executed when the circle is created.
+     * @param onCircleRemoved callbacks executed when the circle is removed.
+     * @param onCircleMoved callbacks executed when the circle is moved.
      * @return added circle.
      */
     public CircleModel createCircle(double x, double y, double radius, List<Consumer<CircleModel>> onCircleCreated,
@@ -119,9 +119,10 @@ public class CircleService {
     /**
      * Moves the circle to the given position.
      *
-     * @param circle moved circle.
-     * @param x new x coordinate of the circle.
-     * @param y new y coordinate of the circle.
+     * @param oldX x coordinate of the circle.
+     * @param oldY new y coordinate of the circle.
+     * @param newX new x coordinate of the circle.
+     * @param newY new y coordinate of the circle.
      */
     public void moveCircle(double oldX, double oldY, double newX, double newY) {
         if (!checkIfCircleIsAlreadyDefined(newX, newY)) {
@@ -130,6 +131,14 @@ public class CircleService {
         }
     }
 
+
+    /**
+     * Moves the circle to the given position.
+     *
+     * @param circle moved circle.
+     * @param newX new x coordinate of the circle.
+     * @param newY new y coordinate of the circle.
+     */
     public void moveCircle(CircleModel circle, double newX, double newY) {
         circle.getCartesianPoint().setX(newX);
         circle.getCartesianPoint().setY(newY);
