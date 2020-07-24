@@ -5,6 +5,7 @@ import com.ninjarlz.projectroentgen.utils.logs.FileAndConsoleLoggerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,10 +33,12 @@ public class CircleServiceTest {
      */
     @Test
     public void getCircleAtTest() {
-        circleService.addCircle(10, 10, 3);
+        circleService.createCircle(10, 10, 3, Collections.emptyList(), Collections.emptyList(),
+                Collections.emptyList());
         assertNotNull(circleService.getCircleAt(10, 10));
         assertNull(circleService.getCircleAt(-10, 10));
-        circleService.addCircle(200, 200, 5);
+        circleService.createCircle(200, 200, 5, Collections.emptyList(), Collections.emptyList(),
+                Collections.emptyList());
         assertNotNull(circleService.getCircleAt(200, 198));
     }
 
@@ -44,7 +47,8 @@ public class CircleServiceTest {
      */
     @Test
     public void checkIfCircleIsAlreadyDefinedTest() {
-        circleService.addCircle(40, 40, 3);
+        circleService.createCircle(40, 40, 3, Collections.emptyList(), Collections.emptyList(),
+                Collections.emptyList());
         assertTrue(circleService.checkIfCircleIsAlreadyDefined(40, 39));
         assertFalse(circleService.checkIfCircleIsAlreadyDefined(140, 40));
     }
@@ -54,8 +58,10 @@ public class CircleServiceTest {
      */
     @Test
     public void clearTest() {
-        circleService.addCircle(1, 1, 3);
-        circleService.addCircle(100, 100, 5);
+        circleService.createCircle(1, 1, 3, Collections.emptyList(), Collections.emptyList(),
+                Collections.emptyList());
+        circleService.createCircle(100, 100, 5, Collections.emptyList(), Collections.emptyList(),
+                Collections.emptyList());
         circleService.clear();
         assertNull(circleService.getCircleAt(1, 1));
         assertNull(circleService.getCircleAt(100, 100));
@@ -66,24 +72,30 @@ public class CircleServiceTest {
      */
     @Test
     public void getCircleIndexTest() {
-        CircleModel circleModel1 = circleService.addCircle(10, 10, 3);
+        CircleModel circleModel1 = circleService.createCircle(10, 10, 3, Collections.emptyList(),
+                Collections.emptyList(),
+                Collections.emptyList());
         logger.log(Level.INFO, circleModel1.toString());
-        CircleModel circleModel2 = circleService.addCircle(200, 200, 5);
+        CircleModel circleModel2 = circleService.createCircle(200, 200, 5, Collections.emptyList(),
+                Collections.emptyList(), Collections.emptyList());
         logger.log(Level.INFO, circleModel2.toString());
         assertEquals(0, circleService.getCircleIndex(circleModel1));
         assertEquals(1, circleService.getCircleIndex(circleModel2));
     }
 
     /**
-     * Tests whether 'addCircle' and 'deleteCircle' methods are properly implemented.
+     * Tests whether 'createCircle' and 'deleteCircle' methods are properly implemented.
      */
     @Test
     public void addDeleteCircleTest() {
-        CircleModel circleModel1 = circleService.addCircle(10, 10, 3);
+        CircleModel circleModel1 = circleService.createCircle(10, 10, 3, Collections.emptyList(),
+                Collections.emptyList(), Collections.emptyList());
         logger.log(Level.INFO, circleModel1.toString());
-        CircleModel circleModel2 = circleService.addCircle(200, 200, 5);
+        CircleModel circleModel2 = circleService.createCircle(200, 200, 5, Collections.emptyList(),
+                Collections.emptyList(), Collections.emptyList());
         logger.log(Level.INFO, circleModel2.toString());
-        CircleModel circleModel3 = circleService.addCircle(400, 200, 5);
+        CircleModel circleModel3 = circleService.createCircle(400, 200, 5, Collections.emptyList(),
+                Collections.emptyList(), Collections.emptyList());
         logger.log(Level.INFO, circleModel3.toString());
         assertTrue(circleService.removeCircle(circleModel1));
         assertFalse(circleService.removeCircle(circleModel1));
@@ -97,7 +109,8 @@ public class CircleServiceTest {
      */
     @Test
     public void moveCircleTest() {
-        CircleModel circleModel = circleService.addCircle(10, 10, 3);
+        CircleModel circleModel = circleService.createCircle(10, 10, 3, Collections.emptyList(),
+                Collections.emptyList(), Collections.emptyList());
         logger.log(Level.INFO, circleModel.toString());
         circleService.moveCircle(circleModel, 300, 340);
         assertEquals(new CartesianPoint(300, 340), circleModel.getCartesianPoint());

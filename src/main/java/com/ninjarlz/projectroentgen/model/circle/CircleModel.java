@@ -3,9 +3,13 @@ package com.ninjarlz.projectroentgen.model.circle;
 import com.ninjarlz.projectroentgen.model.color.ColorModel;
 import com.ninjarlz.projectroentgen.model.point.CartesianPoint;
 import lombok.Data;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * Class representing a circle.
@@ -26,6 +30,30 @@ public class CircleModel implements Comparable<CircleModel> {
      */
     private double radius;
 
+    private List<Consumer<CircleModel>> onCircleCreated;
+
+    private List<Consumer<CircleModel>> onCircleRemoved;
+
+    private List<Consumer<CircleModel>> onCircleMoved;
+
+    /**
+     * Creates a new instance of CircleModel.
+     *
+     * @param x      x coordinate of the circle.
+     * @param y      y coordinate of the circle.
+     * @param radius radius of the circle.
+     */
+    public CircleModel(double x, double y, double radius, List<Consumer<CircleModel>> onCircleCreated,
+                       List<Consumer<CircleModel>> onCircleRemoved,
+                       List<Consumer<CircleModel>> onCircleMoved) {
+        cartesianPoint = new CartesianPoint(x, y);
+        this.radius = radius;
+        color = ColorModel.getRandomColor();
+        this.onCircleCreated = onCircleCreated;
+        this.onCircleMoved = onCircleMoved;
+        this.onCircleRemoved = onCircleRemoved;
+    }
+
     /**
      * Creates a new instance of CircleModel.
      *
@@ -37,6 +65,9 @@ public class CircleModel implements Comparable<CircleModel> {
         cartesianPoint = new CartesianPoint(x, y);
         this.radius = radius;
         color = ColorModel.getRandomColor();
+        onCircleCreated = new ArrayList<>();
+        onCircleMoved = new ArrayList<>();
+        onCircleRemoved = new ArrayList<>();
     }
 
     /**

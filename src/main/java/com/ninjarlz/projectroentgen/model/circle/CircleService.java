@@ -1,7 +1,11 @@
 package com.ninjarlz.projectroentgen.model.circle;
 
+import com.ninjarlz.projectroentgen.model.point.CartesianPoint;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * Class responsible for managing the set of circles.
@@ -73,10 +77,13 @@ public class CircleService {
      * @param radius radius of the circle.
      * @return added circle.
      */
-    public CircleModel addCircle(double x, double y, double radius) {
+    public CircleModel createCircle(double x, double y, double radius, List<Consumer<CircleModel>> onCircleCreated,
+                                    List<Consumer<CircleModel>> onCircleRemoved,
+                                    List<Consumer<CircleModel>> onCircleMoved) {
         if (!checkIfCircleIsAlreadyDefined(x, y)) {
-            CircleModel circleModel = new CircleModel(x, y, radius);
+            CircleModel circleModel = new CircleModel(x, y, radius, onCircleCreated, onCircleRemoved, onCircleMoved);
             circleList.add(circleModel);
+            circleModel.getOnCircleCreated().forEach(consumer -> consumer.accept(circleModel));
             return circleModel;
         }
         return  null;
@@ -89,8 +96,8 @@ public class CircleService {
      * @return boolean determining whether the circle was removed successfully.
      */
     public boolean removeCircle(CircleModel circleModel) {
+        circleModel.getOnCircleRemoved().forEach(consumer -> consumer.accept(circleModel));
         return circleList.remove(circleModel);
-
     }
 
     /**
@@ -103,8 +110,7 @@ public class CircleService {
     public boolean removeCircle(double x, double y) {
         CircleModel circleModel = getCircleAt(x, y);
         if (circleModel != null) {
-            circleList.remove(circleModel);
-            return  true;
+            return removeCircle(circleModel);
         }
         return false;
     }
@@ -117,9 +123,17 @@ public class CircleService {
      * @param x new x coordinate of the circle.
      * @param y new y coordinate of the circle.
      */
-    public void moveCircle(CircleModel circle, double x, double y) {
-        circle.getCartesianPoint().setX(x);
-        circle.getCartesianPoint().setY(y);
+    public void moveCircle(double oldX, double oldY, double newX, double newY) {
+        if (!checkIfCircleIsAlreadyDefined(newX, newY)) {
+            CircleModel circle = getCircleAt(oldX, oldY);
+            moveCircle(circle, newX, newY);
+        }
+    }
+
+    public void moveCircle(CircleModel circle, double newX, double newY) {
+        circle.getCartesianPoint().setX(newX);
+        circle.getCartesianPoint().setY(newY);
+        circle.getOnCircleMoved().forEach(consumer -> consumer.accept(circle));
     }
 
 
@@ -127,7 +141,9 @@ public class CircleService {
      * Clears the circleList.
      */
     public void clear() {
-        circleList.clear();
+        while(!circleList.isEmpty()) {
+            removeCircle(circleList.get(0));
+        }
     }
 
 }

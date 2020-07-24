@@ -90,7 +90,7 @@ public class MainView implements Initializable {
 
     private void onAnchorImagePressed(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
-            addCircle(event.getX(), event.getY());
+            createCircle(event.getX(), event.getY());
         }
     }
 
@@ -107,7 +107,7 @@ public class MainView implements Initializable {
             dragDelta.setY(circle.getCenterY() - event.getY());
             mainPane.getScene().setCursor(Cursor.MOVE);
         } else if (event.getButton() == MouseButton.SECONDARY) {
-            deleteCircle(event.getX(), event.getY());
+            circleService.removeCircle(event.getX(), event.getY());
         }
         validationMsgLabel.setText("");
     }
@@ -137,18 +137,7 @@ public class MainView implements Initializable {
             } else {
                 newPosY = event.getY() + dragDelta.getY();
             }
-            if (!circleService.checkIfCircleIsAlreadyDefined(newPosX, newPosY)) {
-                CircleModel circleModel = circleService.getCircleAt(circle.getCenterX(), circle.getCenterY());
-                int index = circleService.getCircleIndex(circleModel);
-                circleService.moveCircle(circleModel, newPosX, newPosY);
-                AnchorPane pointPanel = (AnchorPane) scrollBox.getChildren().get(index);
-                PointPanel.setTextFields(pointPanel, newPosX, newPosY);
-                for (AnchorPane anchorImageView : anchorImageViews) {
-                    Circle circleOnPanel = (Circle) anchorImageView.getChildren().get(index + 1);
-                    circleOnPanel.setCenterX(newPosX);
-                    circleOnPanel.setCenterY(newPosY);
-                }
-            }
+            circleService.moveCircle(circle.getCenterX(), circle.getCenterY(), newPosX, newPosY);
         }
     }
 
@@ -164,34 +153,64 @@ public class MainView implements Initializable {
         }
     }
 
-    private void addCircle(double x, double y) {
-        CircleModel circleModel = circleService.addCircle(x, y, CIRCLE_RADIUS);
-        if (circleModel != null) {
-            Color color = ColorMapper.mapColorModelToColor(circleModel.getColor());
-            for (AnchorPane anchorImageView : anchorImageViews) {
-                Circle circle = new Circle(x, y, CIRCLE_RADIUS);
-                circle.setFill(color);
-                circle.setOnMousePressed(this::onMousePressedOnCircle);
-                circle.setOnMouseReleased(this::onMouseReleasedCircle);
-                circle.setOnMouseDragged(this::onMouseDraggedCircle);
-                circle.setOnMouseExited(this::onMouseExitedCircle);
-                circle.setOnMouseEntered(this::onMouseEnteredCircle);
-                anchorImageView.getChildren().add(circle);
-            }
-            AnchorPane pointPanel = PointPanel.getPointPanel(color, (ActionEvent actionEvent) ->
-                            deleteCircle(circleModel),
-                    (event) -> onKeyReleasedTextFieldX(circleModel, event),
-                    ((observable, oldValue, newValue) -> onFocusLostTextFieldX(circleModel, newValue, observable)),
-                    (event) -> onKeyReleasedTextFieldY(circleModel, event),
-                    ((observable, oldValue, newValue) -> onFocusLostTextFieldY(circleModel, newValue, observable)));
-            if (pointPanel != null) {
-                PointPanel.setTextFields(pointPanel, x, y);
-                scrollBox.getChildren().add(pointPanel);
-            }
-            validationMsgLabel.setText("");
-            logger.log(Level.INFO, "Circle added at - x: " + circleModel.getCartesianPoint().getX() + " , y: "
-                    + circleModel.getCartesianPoint().getY());
+    private void onCircleMoved(CircleModel circleModel) {
+        int index = circleService.getCircleIndex(circleModel);
+        AnchorPane pointPanel = (AnchorPane) scrollBox.getChildren().get(index);
+        PointPanel.setTextFields(pointPanel, circleModel.getCartesianPoint().getX(),
+                circleModel.getCartesianPoint().getY());
+        for (AnchorPane anchorImageView : anchorImageViews) {
+            Circle circleOnPanel = (Circle) anchorImageView.getChildren().get(index + 1);
+            circleOnPanel.setCenterX(circleModel.getCartesianPoint().getX());
+            circleOnPanel.setCenterY(circleModel.getCartesianPoint().getY());
         }
+    }
+
+    private void onCircleRemoved(CircleModel circleModel) {
+        int index = circleService.getCircleIndex(circleModel);
+        System.out.println("INDEX:" + index);
+        for (AnchorPane anchorImageView : anchorImageViews) {
+
+            anchorImageView.getChildren().remove(index + 1, index + 2);
+
+        }
+        scrollBox.getChildren().remove(index, index + 1);
+        System.out.println("a");
+        logger.log(Level.INFO, "Circle deleted at - x: " + circleModel.getCartesianPoint().getX() + " , y: "
+                + circleModel.getCartesianPoint().getY());
+    }
+
+    private void onCircleCreated(CircleModel circleModel) {
+        Color color = ColorMapper.mapColorModelToColor(circleModel.getColor());
+        for (AnchorPane anchorImageView : anchorImageViews) {
+            Circle circle = new Circle(circleModel.getCartesianPoint().getX(),
+                    circleModel.getCartesianPoint().getY(), circleModel.getRadius());
+            circle.setFill(color);
+            circle.setOnMousePressed(this::onMousePressedOnCircle);
+            circle.setOnMouseReleased(this::onMouseReleasedCircle);
+            circle.setOnMouseDragged(this::onMouseDraggedCircle);
+            circle.setOnMouseExited(this::onMouseExitedCircle);
+            circle.setOnMouseEntered(this::onMouseEnteredCircle);
+            anchorImageView.getChildren().add(circle);
+        }
+        AnchorPane pointPanel = PointPanel.getPointPanel(color, (ActionEvent actionEvent) ->
+                        circleService.removeCircle(circleModel),
+                (event) -> onKeyReleasedTextFieldX(circleModel, event),
+                ((observable, oldValue, newValue) -> onFocusLostTextFieldX(circleModel, newValue, observable)),
+                (event) -> onKeyReleasedTextFieldY(circleModel, event),
+                ((observable, oldValue, newValue) -> onFocusLostTextFieldY(circleModel, newValue, observable)));
+        if (pointPanel != null) {
+            PointPanel.setTextFields(pointPanel, circleModel.getCartesianPoint().getX(),
+                    circleModel.getCartesianPoint().getY());
+            scrollBox.getChildren().add(pointPanel);
+        }
+        validationMsgLabel.setText("");
+        logger.log(Level.INFO, "Circle added at - x: " + circleModel.getCartesianPoint().getX() + " , y: "
+                + circleModel.getCartesianPoint().getY());
+    }
+
+    private void createCircle(double x, double y) {
+        circleService.createCircle(x, y, CIRCLE_RADIUS, Collections.singletonList(this::onCircleCreated),
+                Collections.singletonList(this::onCircleRemoved), Collections.singletonList(this::onCircleMoved));
     }
 
     private void onFocusLostTextFieldX(CircleModel circleModel, boolean focus, Observable observable) {
@@ -247,11 +266,6 @@ public class MainView implements Initializable {
         }
         circleService.moveCircle(circleModel, newValueDouble, circleModel.getCartesianPoint().getY());
         validationMsgLabel.setText("");
-        int index = circleService.getCircleIndex(circleModel);
-        for (AnchorPane anchorImageView : anchorImageViews) {
-            Circle circleOnPanel = (Circle) anchorImageView.getChildren().get(index + 1);
-            circleOnPanel.setCenterX(newValueDouble);
-        }
     }
 
     private void onKeyReleasedTextFieldY(CircleModel circleModel, KeyEvent keyEvent) {
@@ -283,30 +297,8 @@ public class MainView implements Initializable {
         }
         circleService.moveCircle(circleModel, circleModel.getCartesianPoint().getX(), newValueDouble);
         validationMsgLabel.setText("");
-        int index = circleService.getCircleIndex(circleModel);
-        for (AnchorPane anchorImageView : anchorImageViews) {
-            Circle circleOnPanel = (Circle) anchorImageView.getChildren().get(index + 1);
-            circleOnPanel.setCenterY(newValueDouble);
-        }
     }
 
-    private void deleteCircle(double x, double y) {
-        CircleModel circleModel = circleService.getCircleAt(x, y);
-        if (circleModel != null) {
-            deleteCircle(circleModel);
-        }
-    }
-
-    private void deleteCircle(CircleModel circleModel) {
-        int index = circleService.getCircleIndex(circleModel);
-        circleService.removeCircle(circleModel);
-        for (AnchorPane anchorImageView : anchorImageViews) {
-            anchorImageView.getChildren().remove(index + 1, index + 2);
-        }
-        scrollBox.getChildren().remove(index, index + 1);
-        logger.log(Level.INFO, "Circle deleted at - x: " + circleModel.getCartesianPoint().getX() + " , y: "
-                + circleModel.getCartesianPoint().getY());
-    }
 
     public void loadImageAction(ActionEvent actionEvent) {
         File imageFile = imageFileChooser.showOpenDialog(stage);
@@ -324,10 +316,6 @@ public class MainView implements Initializable {
 
     public void resetPoints(ActionEvent actionEvent) {
         circleService.clear();
-        scrollBox.getChildren().clear();
-        for (AnchorPane anchorImageView : anchorImageViews) {
-            anchorImageView.getChildren().remove(1, anchorImageView.getChildren().size());
-        }
     }
 
     private void changeLanguage(LanguageManager.Language language) {
