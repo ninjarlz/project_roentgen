@@ -70,6 +70,8 @@ public class PointPanel {
         TextField textFieldY = (TextField) pointPanel.getChildren().get(5);
         textFieldX.setText(Integer.toString((int) x));
         textFieldY.setText(Integer.toString((int) y));
+        textFieldX.positionCaret(textFieldX.getText().length());
+        textFieldY.positionCaret(textFieldY.getText().length());
     }
 
     public static void changeLanguage(AnchorPane anchorPane) {

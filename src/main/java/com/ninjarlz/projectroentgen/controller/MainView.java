@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -233,9 +234,15 @@ public class MainView implements Initializable {
         }
     }
 
+    private boolean isTextFieldNotChanged(TextField textField, KeyEvent keyEvent) {
+        boolean isBackspace = keyEvent.getCode() == KeyCode.BACK_SPACE;
+        boolean isDigit = keyEvent.getText().length() == 1 && Character.isDigit(keyEvent.getText().charAt(0));
+        return textField.getText().isEmpty() || (!isDigit && !isBackspace);
+    }
+
     private void onKeyReleasedTextFieldX(CircleModel circleModel, KeyEvent keyEvent) {
         TextField textField = (TextField) keyEvent.getSource();
-        if (textField.getText().isEmpty()) {
+        if (isTextFieldNotChanged(textField, keyEvent)) {
             return;
         }
         double newValueDouble = Double.parseDouble(textField.getText());
@@ -261,12 +268,13 @@ public class MainView implements Initializable {
             return;
         }
         circleService.moveCircle(circleModel, newValueDouble, circleModel.getCartesianPoint().getY());
+        textField.positionCaret(textField.getText().length());
         validationMsgLabel.setText("");
     }
 
     private void onKeyReleasedTextFieldY(CircleModel circleModel, KeyEvent keyEvent) {
         TextField textField = (TextField) keyEvent.getSource();
-        if (textField.getText().isEmpty()) {
+        if (isTextFieldNotChanged(textField, keyEvent)) {
             return;
         }
         double newValueDouble = Double.parseDouble(textField.getText());
@@ -292,6 +300,7 @@ public class MainView implements Initializable {
             return;
         }
         circleService.moveCircle(circleModel, circleModel.getCartesianPoint().getX(), newValueDouble);
+        textField.positionCaret(textField.getText().length());
         validationMsgLabel.setText("");
     }
 
